@@ -13,7 +13,7 @@ public class ReservasController {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("/reservas/espacios")
+    @GetMapping(value = "/reservas/espacios", produces = "application/json")
     public String consultarEspacios() {
 
         return restTemplate.getForObject(
