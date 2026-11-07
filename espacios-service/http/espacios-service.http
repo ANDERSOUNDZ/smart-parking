@@ -1,0 +1,28 @@
+@host = http://localhost:8081
+
+### Obtener todos los espacios
+GET {{host}}/espacios
+
+### Obtener un espacio por ID
+GET {{host}}/espacios/2
+
+### Crear un espacio
+POST {{host}}/espacios
+Content-Type: application/json
+
+{
+  "id": 1,
+  "ocupado": false
+}
+
+### Actualizar un espacio
+PUT {{host}}/espacios/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "ocupado": true
+}
+
+### Eliminar un espacio
+DELETE {{host}}/espacios/3

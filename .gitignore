@@ -1,0 +1,14 @@
+# Entorno virtual de Python
+.venv/
+__pycache__/
+
+# Compilados de Maven
+target/
+
+# Base de datos H2 local de espacios-service
+espacios-service/data/
+
+# IDE y logs
+.idea/
+*.iml
+*.log
