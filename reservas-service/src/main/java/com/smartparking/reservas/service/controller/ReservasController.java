@@ -1,65 +1,48 @@
 package com.smartparking.reservas.service.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
-import com.smartparking.reservas.service.model.EspacioDTO;
+import com.smartparking.reservas.service.model.Reserva;
+import com.smartparking.reservas.service.service.ReservaService;
 
 @RestController
 public class ReservasController {
 
-    private final RestTemplate restTemplate;
+    private final ReservaService reservaService;
 
-    public ReservasController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public ReservasController(ReservaService reservaService) {
+        this.reservaService = reservaService;
+    }
+
+    @GetMapping("/reservas")
+    public List<Reserva> obtenerReservas() {
+        return reservaService.obtenerTodas();
     }
 
     @GetMapping("/reservas/espacios")
     public String consultarEspacios() {
-        return restTemplate.getForObject(
-                "http://espacios-service/espacios",
-                String.class
-        );
+        return reservaService.consultarEspacios();
+    }
+    
+    @GetMapping("/reservas/{id}")
+    public Reserva obtenerReserva(@PathVariable Long id) {
+        return reservaService.obtenerPorId(id);
     }
 
     @PostMapping("/reservas/{idEspacio}")
-    public ResponseEntity<?> reservarEspacio(
+    public ResponseEntity<Reserva> crearReserva(
             @PathVariable int idEspacio) {
 
-        String url =
-                "http://espacios-service/espacios/" + idEspacio;
+        Reserva reserva = reservaService.crearReserva(idEspacio);
 
-        EspacioDTO espacio;
-
-        try {
-            espacio = restTemplate.getForObject(
-                    url, EspacioDTO.class);
-        } catch (HttpClientErrorException.NotFound e) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (espacio == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (espacio.isOcupado()) {
-            return ResponseEntity.status(
-                    HttpStatus.CONFLICT
-            ).body("El espacio ya está ocupado.");
-        }
-
-        espacio.setOcupado(true);
-
-        restTemplate.put(url, espacio);
-
-        return ResponseEntity.status(
-                HttpStatus.CREATED
-        ).body(espacio);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(reserva);
     }
 }

@@ -5,8 +5,9 @@ __pycache__/
 # Compilados de Maven
 target/
 
-# Base de datos H2 local de espacios-service
+# Bases de datos H2 locales
 espacios-service/data/
+reservas-service/data/
 
 # IDE y logs
 .idea/
