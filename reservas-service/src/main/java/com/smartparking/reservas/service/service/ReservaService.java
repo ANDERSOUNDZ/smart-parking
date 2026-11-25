@@ -47,8 +47,7 @@ public class ReservaService {
     @Transactional
     public Reserva crearReserva(int idEspacio) {
 
-        String url =
-                "http://espacios-service/espacios/" + idEspacio;
+        String url = "http://espacios-service/espacios/" + idEspacio;
 
         EspacioDTO espacio;
 
@@ -87,6 +86,48 @@ public class ReservaService {
         reserva.setIdEspacio(idEspacio);
         reserva.setFechaReserva(LocalDateTime.now());
         reserva.setEstado("CONFIRMADA");
+
+        return reservaRepository.save(reserva);
+    }
+
+    @Transactional
+    public Reserva cancelarReserva(Long id) {
+
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Reserva no encontrada"));
+
+        if ("CANCELADA".equals(reserva.getEstado())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "La reserva ya está cancelada");
+        }
+
+        String url = "http://espacios-service/espacios/"
+                + reserva.getIdEspacio();
+
+        EspacioDTO espacio;
+
+        try {
+            espacio = restTemplate.getForObject(
+                    url, EspacioDTO.class);
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "El espacio asociado ya no existe");
+        }
+
+        if (espacio == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "El espacio asociado ya no existe");
+        }
+
+        espacio.setOcupado(false);
+        restTemplate.put(url, espacio);
+
+        reserva.setEstado("CANCELADA");
 
         return reservaRepository.save(reserva);
     }

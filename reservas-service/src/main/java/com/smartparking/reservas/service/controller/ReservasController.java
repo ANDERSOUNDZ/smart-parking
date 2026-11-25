@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.smartparking.reservas.service.model.Reserva;
 import com.smartparking.reservas.service.service.ReservaService;
@@ -30,7 +31,7 @@ public class ReservasController {
     public String consultarEspacios() {
         return reservaService.consultarEspacios();
     }
-    
+
     @GetMapping("/reservas/{id}")
     public Reserva obtenerReserva(@PathVariable Long id) {
         return reservaService.obtenerPorId(id);
@@ -44,5 +45,10 @@ public class ReservasController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reserva);
+    }
+
+    @DeleteMapping("/reservas/{id}")
+    public Reserva cancelarReserva(@PathVariable Long id) {
+        return reservaService.cancelarReserva(id);
     }
 }
