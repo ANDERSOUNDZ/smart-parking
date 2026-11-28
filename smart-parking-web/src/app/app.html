@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <span>SmartParking Analytics</span>
+</mat-toolbar>
+
+<nav mat-tab-nav-bar [tabPanel]="contenido" [mat-stretch-tabs]="false">
+  <a mat-tab-link routerLink="/sistema" routerLinkActive #sistema="routerLinkActive" [active]="sistema.isActive">
+    Sistema
+  </a>
+  <a mat-tab-link routerLink="/reportes" routerLinkActive #reportes="routerLinkActive" [active]="reportes.isActive">
+    Reportes
+  </a>
+</nav>
+
+<mat-tab-nav-panel #contenido>
+  <router-outlet />
+</mat-tab-nav-panel>

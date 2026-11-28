@@ -1,0 +1,12 @@
+{
+  "/api/espacios": {
+    "target": "http://localhost:8082",
+    "secure": false,
+    "pathRewrite": { "^/api": "" }
+  },
+  "/api/reservas": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "pathRewrite": { "^/api": "" }
+  }
+}

@@ -1,0 +1,46 @@
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+
+  // Tema oficial de Angular Material.
+  @include mat.theme((
+    color: (primary: mat.$azure-palette, tertiary: mat.$green-palette),
+    typography: Roboto,
+    density: 0,
+  ));
+
+  // Esquinas poco redondeadas, mediante la API oficial de temas.
+  @include mat.theme-overrides((
+    corner-extra-small: 2px,
+    corner-small: 4px,
+    corner-medium: 4px,
+    corner-large: 4px,
+    corner-extra-large: 4px,
+    corner-full: 4px,
+  ));
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+
+h2 { font: var(--mat-sys-headline-small); }
+
+// El contenido ocupa el alto restante bajo la barra y las pestanas (un solo scroll).
+app-root { display: flex; flex-direction: column; height: 100%; }
+mat-tab-nav-panel { display: flex; flex: 1; flex-direction: column; min-height: 0; overflow: auto; }
+app-sistema-layout { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+
+// Unicamente distribucion y color de estado (Material no incluye utilidades para esto).
+.pagina { display: flex; flex-direction: column; gap: 16px; padding: 16px; }
+.fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.espaciador { flex: 1; }
+mat-grid-tile mat-card { width: 100%; height: 100%; }
+.texto-libre { color: var(--mat-sys-tertiary); }
+.texto-ocupado { color: var(--mat-sys-error); }

@@ -1,0 +1,68 @@
+<div class="pagina">
+  <h2>Panel de administración</h2>
+
+  <mat-grid-list [cols]="compacto() ? 2 : 4" rowHeight="100px" gutterSize="16px">
+    @for (indicador of indicadores(); track indicador.titulo) {
+      <mat-grid-tile>
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-card-subtitle>{{ indicador.titulo }}</mat-card-subtitle>
+            <mat-card-title>{{ indicador.valor }}</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+
+  <mat-card appearance="outlined">
+    <mat-card-header><mat-card-title>Consulta de disponibilidad</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <div class="fila">
+        <mat-form-field>
+          <mat-label>Buscar espacio por ID</mat-label>
+          <input matInput type="number" [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Mostrar</mat-label>
+          <mat-select [ngModel]="filtro()" (ngModelChange)="filtro.set($event)">
+            <mat-option value="todos">Todos los espacios</mat-option>
+            <mat-option value="libres">Disponibles</mat-option>
+            <mat-option value="ocupados">Ocupados</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      @if (visibles().length) {
+        <mat-grid-list [cols]="compacto() ? 2 : 7" rowHeight="136px" gutterSize="12px">
+          @for (espacio of visibles(); track espacio.id) {
+            <mat-grid-tile>
+              <mat-card appearance="outlined">
+                <mat-card-header>
+                  <mat-card-title>E-{{ espacio.id }}</mat-card-title>
+                  <mat-card-subtitle>
+                    <span [class]="espacio.ocupado ? 'texto-ocupado' : 'texto-libre'">
+                      {{ espacio.ocupado ? 'Ocupado' : 'Disponible' }}
+                    </span>
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions>
+                  <app-boton-espacio [espacio]="espacio" />
+                </mat-card-actions>
+              </mat-card>
+            </mat-grid-tile>
+          }
+        </mat-grid-list>
+      } @else {
+        <p>Sin resultados.</p>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card appearance="outlined">
+    <mat-card-header><mat-card-title>Ocupación actual</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <mat-progress-bar mode="determinate" [value]="porcentaje()" />
+      <p>{{ porcentaje() }}% de ocupación</p>
+    </mat-card-content>
+  </mat-card>
+</div>
