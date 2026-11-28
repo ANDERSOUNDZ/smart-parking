@@ -1,0 +1,12 @@
+<mat-grid-list [cols]="compacto() ? 2 : items().length" [rowHeight]="alto()" gutterSize="16px">
+  @for (item of items(); track item.titulo) {
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-subtitle>{{ item.titulo }}</mat-card-subtitle>
+          <mat-card-title>{{ item.valor | sinDato: item.sufijo }}</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </mat-grid-tile>
+  }
+</mat-grid-list>

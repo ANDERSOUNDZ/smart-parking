@@ -1,0 +1,42 @@
+<div class="pagina">
+  <h2>Reportes</h2>
+
+  @if (sinServicio()) {
+    <mat-card appearance="outlined">
+      <mat-card-content>El servicio de analítica no responde. Verifica que analytics-service esté levantado.</mat-card-content>
+    </mat-card>
+  }
+
+  <mat-card appearance="outlined">
+    <mat-card-content>
+      <div class="fila">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Período</mat-label>
+          <mat-date-range-input [rangePicker]="calendario">
+            <input matStartDate placeholder="Desde" [ngModel]="desde()" (ngModelChange)="desde.set($event)" />
+            <input matEndDate placeholder="Hasta" [ngModel]="hasta()" (ngModelChange)="hasta.set($event)" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="calendario" />
+          <mat-date-range-picker #calendario />
+        </mat-form-field>
+        <span class="espaciador"></span>
+        <a matButton="outlined" class="no-imprimir" [href]="urlCsv()" download="ocupacion.csv">Descargar CSV</a>
+        <button matButton="outlined" class="no-imprimir" (click)="imprimir()">Imprimir o guardar PDF</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <app-indicadores [items]="indicadores()" alto="128px" />
+
+  <div class="columnas">
+    <app-grafica titulo="Evolución de la ocupación" tipo="line" [datos]="evolucion()" [opciones]="porcentaje" />
+    <app-grafica titulo="Espacios ocupados y disponibles" tipo="line" [datos]="espacios()" [opciones]="base" />
+    <app-comparacion-mensual />
+    <app-grafica titulo="Ranking de horas pico" subtitulo="Las 5 horas con mayor ocupación del período"
+                 [datos]="horasPico()" [opciones]="horizontal" />
+  </div>
+
+  <app-prediccion-ocupacion />
+
+  <app-grafica titulo="Reservas del período" [subtitulo]="resumenReservas()" [datos]="reservasPorHora()" />
+</div>

@@ -8,5 +8,10 @@
     "target": "http://localhost:8083",
     "secure": false,
     "pathRewrite": { "^/api": "" }
+  },
+  "/api/analytics": {
+    "target": "http://localhost:8084",
+    "secure": false,
+    "pathRewrite": { "^/api": "" }
   }
 }

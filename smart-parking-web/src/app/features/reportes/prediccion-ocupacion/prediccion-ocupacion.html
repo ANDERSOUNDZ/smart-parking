@@ -1,0 +1,23 @@
+<app-grafica titulo="Predicción de ocupación" [datos]="datos()" [opciones]="opciones"
+             subtitulo="Promedio de la misma hora en los últimos 28 días. Es una estimación, no garantiza disponibilidad.">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Horizonte</mat-label>
+    <mat-select [ngModel]="horas()" (ngModelChange)="horas.set($event)">
+      <mat-option [value]="6">Próximas 6 horas</mat-option>
+      <mat-option [value]="12">Próximas 12 horas</mat-option>
+      <mat-option [value]="24">Próximas 24 horas</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div pie>
+    <p>Ocupación máxima estimada: <strong>{{ resumen().maxima | sinDato: '%' }}</strong></p>
+    <p>Disponibilidad mínima estimada: <strong>{{ resumen().disponibles | sinDato: ' espacios' }}</strong></p>
+    <p>Horas con mayor demanda:</p>
+    <ol>
+      @for (p of resumen().demanda; track p.fechaHora) {
+        <li>{{ p.fechaHora | date: 'HH:mm' }} ({{ p.ocupacion }}%)</li>
+      } @empty {
+        <li>Sin datos para estas horas.</li>
+      }
+    </ol>
+  </div>
+</app-grafica>

@@ -8,6 +8,7 @@ target/
 # Bases de datos H2 locales
 espacios-service/data/
 reservas-service/data/
+analytics-service/data/
 
 # IDE y logs
 .idea/

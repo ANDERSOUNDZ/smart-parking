@@ -12,14 +12,19 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BotonEspacio } from './boton-espacio';
-import { ConfirmarDialog } from './confirmar-dialog';
+import { BotonEspacio } from './components/boton-espacio/boton-espacio';
+import { Dialogo } from './components/dialogo/dialogo';
+import { Estado } from './components/estado/estado';
+import { Indicadores } from './components/indicadores/indicadores';
+import { SinDatoPipe } from './pipes/sin-dato-pipe';
 
 const MODULOS = [
   CommonModule, FormsModule, MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule,
   MatGridListModule, MatInputModule, MatPaginatorModule, MatProgressBarModule, MatSelectModule,
   MatTableModule, MatTooltipModule,
 ];
+
+const PROPIOS = [BotonEspacio, Dialogo, Estado, Indicadores, SinDatoPipe];
 
 function paginadorEnEspanol() {
   const textos = new MatPaginatorIntl();
@@ -32,9 +37,9 @@ function paginadorEnEspanol() {
 }
 
 @NgModule({
-  declarations: [BotonEspacio, ConfirmarDialog],
+  declarations: PROPIOS,
   imports: MODULOS,
-  exports: [...MODULOS, BotonEspacio, ConfirmarDialog],
+  exports: [...MODULOS, ...PROPIOS],
   providers: [{ provide: MatPaginatorIntl, useFactory: paginadorEnEspanol }],
 })
 export class SharedModule {}

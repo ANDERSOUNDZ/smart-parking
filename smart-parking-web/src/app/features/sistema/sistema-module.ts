@@ -2,23 +2,26 @@ import { NgModule } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule, Routes } from '@angular/router';
-import { SistemaLayout } from './sistema-layout';
+import { SharedModule } from '../../shared/shared-module';
+import { Espacios } from './espacios/espacios';
+import { Panel } from './panel/panel';
+import { Sistema } from './sistema/sistema';
 
 const routes: Routes = [
   {
     path: '',
-    component: SistemaLayout,
+    component: Sistema,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'panel' },
-      { path: 'panel', loadChildren: () => import('../panel/panel-module').then((m) => m.PanelModule) },
-      { path: 'espacios', loadChildren: () => import('../espacios/espacios-module').then((m) => m.EspaciosModule) },
+      { path: 'panel', component: Panel },
+      { path: 'espacios', component: Espacios },
       { path: '**', redirectTo: 'panel' },
     ],
   },
 ];
 
 @NgModule({
-  declarations: [SistemaLayout],
-  imports: [RouterModule.forChild(routes), MatSidenavModule, MatListModule],
+  declarations: [Sistema, Panel, Espacios],
+  imports: [SharedModule, MatSidenavModule, MatListModule, RouterModule.forChild(routes)],
 })
 export class SistemaModule {}

@@ -1,0 +1,6 @@
+<app-grafica titulo="Comparación mensual" [subtitulo]="variacion()" [datos]="datos()" [opciones]="opciones">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Mes a analizar</mat-label>
+    <input matInput type="month" [ngModel]="mes()" (ngModelChange)="mes.set($event)" />
+  </mat-form-field>
+</app-grafica>
